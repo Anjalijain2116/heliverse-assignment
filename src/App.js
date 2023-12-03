@@ -1,23 +1,20 @@
-
 import './App.css';
-
 import Render from './components/Render';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User from './components/User';
-// import Createteam from './components/Createteam';
-// import Child from './components/ChildComponent'
 
 function App() {
   return (
     <div className="App">
 
+      {/* Add routing */}
+
       <RouterProvider router={approuter} />
-      {/* <Child /> */}
-      
-    
-    </div>
+     </div>
   );
 }
+
+// Adding paths for routing
 
 const approuter = createBrowserRouter([
   {
@@ -30,13 +27,5 @@ const approuter = createBrowserRouter([
     element: <User />,
     // errorElement: <Error />,
   },
-  // {
-  //   path: "/createteam",
-  //   element: <Createteam />,
-  //   // errorElement: <Error />,
-  // },
- 
 ]);
-
-
 export default App;
