@@ -26,6 +26,7 @@ const Usercard = ({
           // disabled={selectedDomain && selectedDomain !== user.domain && user.isChecked}
         />
       )}
+      {/* this is for cards */}
       <img className="img" src={avatar} alt="card is not there"/>
       <div className="card_text">
         <h3>
