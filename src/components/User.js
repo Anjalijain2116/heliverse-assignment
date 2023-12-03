@@ -12,12 +12,12 @@ const User = () => {
     Users.map((user) => ({ ...user, isChecked: false }))
   );
   const [originalUser, setOriginalUser] = useState(Users);
-  const [selectedDomain, setSelectedDomain] = useState([]);
-  const [selectedGender, setSelectedGender] = useState([]);
-  const [selectedAvailability, setSelectedAvailability] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [createTeam, setCreateTeam] = useState(false);
-  const [domainArray, setDomainArray] = useState([]);
+  const [selectedDomain, setSelectedDomain] = useState([]); // to filter acc to domain
+  const [selectedGender, setSelectedGender] = useState([]); // to filter acc to gender
+  const [selectedAvailability, setSelectedAvailability] = useState([]);  // to filter acc to availability
+  const [currentPage, setCurrentPage] = useState(1);  // for current page
+  const [createTeam, setCreateTeam] = useState(false); // to check page
+  const [domainArray, setDomainArray] = useState([]); // for check box
 
   useEffect(() => {
     setOriginalUser(Users.map((user) => ({ ...user, isChecked: false })));
@@ -26,6 +26,8 @@ const User = () => {
   useEffect(() => {
     filterUsers();
   }, [selectedDomain, selectedGender, selectedAvailability, currUsers]);
+
+  //to handle filter check box changes
 
   const handleCheckboxChange = (type, value) => {
     switch (type) {
@@ -55,6 +57,8 @@ const User = () => {
     }
   };
 
+  // to filter according to various filter
+
   const filterUsers = () => {
     const filteredUsers = currUsers.filter((user) => {
       const domainMatch =
@@ -73,14 +77,14 @@ const User = () => {
     setFilteredUsers(filteredUsers);
   };
 
-  // const handleChildValue = (value) => {
-  //   // setFilteredUsers(value2);
-  //   settext(value);
-  // };
+  
+ // set index for pagination
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
+
+  // filter according to name
 
   function filterdata(searchtext) {
     const temUser = originalUser.filter(
@@ -92,21 +96,25 @@ const User = () => {
     setFilteredUsers(temUser);
     setCurrentPage(1);
   }
+
+  //set page no
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  //find unique domain
+
   const uniqueDomains = [...new Set(Users.map((user) => user.domain))];
 
-  // console.log(uniqueDomains);
-
-  // createTeam functions
+ 
   function handleCreateteam(e) {
     console.log(e);
     setCreateTeam(e);
   }
 
+  // to check user is already selected or not
   const checkAlreadySelected = (userId, domain, isChecked) => {
+
     if (isChecked) {
       setDomainArray((prev) =>
         prev.includes(domain)
@@ -116,6 +124,7 @@ const User = () => {
       handleCheckboxChangeCreateTeam(userId, domain);
       return;
     }
+    // if user is selected for same domain
     let ret = false;
     domainArray.map((prev) => {
       if (prev === domain) {
@@ -147,8 +156,15 @@ const User = () => {
         filterData={filterdata}
         handleCreateTeam={handleCreateteam}
       />
+      {/* this button will show if we are on create team */}
+
+      {createTeam &&  <div className="btn_div">
+        <button className="save_btn">Save</button>
+      </div>}
 
       <div className="user_body">
+
+        {/* this for filter present on left side */}
         <aside className="user_item1">
           <div className="user_filters">
             <h2>Filtered by</h2>
@@ -204,6 +220,8 @@ const User = () => {
           </div>
         </aside>
 
+        {/* for cards */}
+
         <main className="user_item2">
           {usersToDisplay.length === 0 && (
             <h2 className="no_user">
@@ -220,6 +238,8 @@ const User = () => {
               />
             );
           })}
+
+          {/* to add pagination */}
 
           <div className="pagination-container">
             {[
